@@ -1,0 +1,37 @@
+[
+  {
+    "id" : "978-0641723445",
+    "cat" : ["book","hardcover"],
+    "title" : "The Lightning Thief",
+    "authors" : ["Rick Riordan"],
+    "genre" : "fantasy",
+    "isbn"	:	"0786838655"
+  }
+,
+  {
+    "id" : "978-1423103349",
+    "cat" : ["book","paperback"],
+    "title" : "The Sea of Monsters",
+    "authors" : ["Rick Riordan"],
+    "genre" : "fantasy",
+    "isbn"	:	"1423103343"
+  }
+,
+  {
+    "id" : "978-1857995879",
+    "cat" : ["book","paperback"],
+    "title" : "Sophie's World : The Greek Philosophers",
+    "authors" : ["Jostein Gaarder"],
+    "genre" : "fantasy",
+    "isbn"	:	"1857995872"
+  }
+,
+  {
+    "id" : "978-1933988177",
+    "cat" : ["book","paperback"],
+    "title" : "Lucene in Action, Second Edition",
+    "authors" : ["Michael McCandless"],
+    "genre" : "IT",
+    "isbn"	:	"7115251770"
+  }
+]
