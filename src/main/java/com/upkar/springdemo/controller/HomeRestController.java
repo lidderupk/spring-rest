@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class HomeRestController {
 		ObjectMapper mapper = new ObjectMapper();
 		Book[] b = mapper.readValue(resource.getFile(), Book[].class);
 		return new ResponseEntity<List<Book>>(Arrays.asList(b), HttpStatus.OK);
+	}
+	
+	@GetMapping("/books/{id}")
+	public ResponseEntity<Book> getABook() throws IOException {
+		return new ResponseEntity<Book>(new Book(), HttpStatus.NOT_FOUND);
 	}
 }

@@ -9,6 +9,8 @@
 	 * GET /books?searchByAuthor=text
 	 * GET /books?sort=ascending
 	 * GET /books?sort=descending
+	 * DELETE /books - admin only
+	 * DELETE /books/1 - admin only
 	 
 ## The Rest API should use the following codes when sending a response back
 200 – OK – Eyerything is working

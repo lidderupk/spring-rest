@@ -38,10 +38,24 @@ public class HomeRestControllerTest {
 	private final String baseUrl = "/api";
 	private final String getAllBooksURL = "/books";
 	private final String getABook = "/books/1";
+	private final String invalidUrl = "/books/hello/1";
 	private final String getAnInvaludBook = "/books/9999999999999999";
 	
 	@Test
 	public void getAllBooksShouldExist() throws Exception{
-		mockMvc.perform(get(baseUrl+getAllBooksURL).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		mockMvc.perform(get(baseUrl+getAllBooksURL).accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void getABookByIdShouldExist() throws Exception {
+		mockMvc.perform(get(baseUrl + getABook).accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	public void invalidUrlMustReturn404() throws Exception{
+		mockMvc.perform(get(invalidUrl).accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNotFound());
 	}
 }
