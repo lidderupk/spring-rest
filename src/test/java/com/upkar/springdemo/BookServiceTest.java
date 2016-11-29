@@ -1,12 +1,11 @@
 package com.upkar.springdemo;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.isA;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,5 +62,39 @@ public class BookServiceTest {
 		Optional<Book> aBook = bService.getABook(id);
 		assertThat(aBook.isPresent(), is(true));
 		assertThat(aBook.get().getId(), is(id));
+	}
+	
+	//Test author request
+	@Test
+	public void getAuthorsGivenABookIdShouldReturnAList() throws JsonParseException, JsonMappingException, IOException {
+		String id = "978-0641723445";
+		List<String> authors = bService.getAuthorsForBookById(id);
+		assertThat(authors, isA(List.class));
+	}
+	
+	@Test
+	public void getAuthorsGivenABookIdShouldReturnEmptyListForInvalidId() throws JsonParseException, JsonMappingException, IOException {
+		String id = "doesnotexist";
+		List<String> authors = bService.getAuthorsForBookById(id);
+		assertThat(authors.isEmpty(), is(true));
+	}
+	
+	@Test
+	public void getAuthorsGivenBookIdShouldReturnListOfAuthors() throws JsonParseException, JsonMappingException, IOException {
+		String id = "978-0641723445";
+		List<String> authors = bService.getAuthorsForBookById(id);
+		List<String> expectedAuthors = Arrays.asList(("Rick Riordan"));
+		assertThat(authors, is(expectedAuthors));
+	}
+	
+	//GET /books?searchByAuthor=text
+	@Test
+	public void getAllBooksGivenAuthorName() throws JsonParseException, JsonMappingException, IOException{
+		String author = "Rick Riordan";
+		List<Book> books = bService.getBooksGivenAuthorName(author);
+		assertThat(books.isEmpty(), is(false));
+		assertThat(books.size(), is(2));
+		assertThat(books, BookCustomMatcher.containsTitle("The Lightning Thief"));
+		assertThat(books, BookCustomMatcher.containsTitle("The Sea of Monsters"));
 	}
 }

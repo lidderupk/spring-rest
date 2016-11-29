@@ -2,6 +2,7 @@ package com.upkar.springdemo.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,24 @@ public class BookService {
 	}
 	
 	public List<String> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
+		List<String> result = new ArrayList<>();
 		List<Book> allBooks = getAllBooks();
-		return null;
+		List<Book> filterBooks = allBooks.stream()
+			.filter(b -> b.getId().equals(id))
+			.collect(Collectors.toList());
+		
+		if(filterBooks.size() == 1) {
+			result = filterBooks.get(0).getAuthors();
+		}
+		
+		return result;
+	}
+	
+	public List<Book> getBooksGivenAuthorName(String authorName) throws JsonParseException, JsonMappingException, IOException{
+		List<Book> allBooks = getAllBooks();
+		List<Book> filterByAuthor = allBooks.stream()
+			.filter(b -> b.getAuthors().contains(authorName))
+			.collect(Collectors.toList());
+		return filterByAuthor;
 	}
 }
