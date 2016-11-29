@@ -37,7 +37,7 @@ public class BookServiceTest {
 	}
 
 	@Test
-	public void testGetAllBooksReturnsListOfBooksExists() throws JsonParseException, JsonMappingException, IOException {
+	public void testGetAllBooksReturnsListOfBooks() throws JsonParseException, JsonMappingException, IOException {
 		List<Book> allBooks = bService.getAllBooks();
 		assertNotNull(allBooks);
 		assertThat(allBooks, instanceOf(List.class));

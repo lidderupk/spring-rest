@@ -20,6 +20,18 @@ import com.upkar.springdemo.model.Book;
 @Service
 public class BookService {
 	
+	/*
+	 * test
+	 * API version /v1/
+	 * GET /books
+	 * GET /books?offset=10&limit=5
+	 * GET /books/{id}
+	 * GET /books/{id}/{authors}
+	 * GET /books?searchByAuthor=text
+	 * GET /books?sort=ascending
+	 * GET /books?sort=descending
+	 */
+	
 	@Autowired
 	ApplicationContext appContext;
 	
@@ -41,5 +53,10 @@ public class BookService {
 			return Optional.empty();
 		}
 		return Optional.of(searchResult.get(0));	
+	}
+	
+	public List<String> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
+		List<Book> allBooks = getAllBooks();
+		return null;
 	}
 }
