@@ -1,12 +1,14 @@
 package com.upkar.springdemo;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,5 +41,27 @@ public class BookServiceTest {
 		List<Book> allBooks = bService.getAllBooks();
 		assertNotNull(allBooks);
 		assertThat(allBooks, instanceOf(List.class));
+	}
+	
+	@Test
+	public void testGetABookShouldReturnAnOptional() throws JsonParseException, JsonMappingException, IOException {
+		String id = "doesnotexist";
+		Optional<Book> result = bService.getABook(id);
+		assertThat(result, isA(Optional.class));
+	}
+	
+	@Test
+	public void testGetABookShouldReturnEmptyOptionalIfBookDoesNotExist() throws JsonParseException, JsonMappingException, IOException {
+		String id = "doesnotexist";
+		Optional<Book> aBook = bService.getABook(id);
+		assertThat(aBook.isPresent(), is(false));
+	}
+	
+	@Test
+	public void testGetABookShouldReturnBookOptionalIfBookExists() throws JsonParseException, JsonMappingException, IOException {
+		String id = "978-0641723445";
+		Optional<Book> aBook = bService.getABook(id);
+		assertThat(aBook.isPresent(), is(true));
+		assertThat(aBook.get().getId(), is(id));
 	}
 }
