@@ -2,10 +2,7 @@ package com.upkar.springdemo.service;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +17,9 @@ import com.upkar.springdemo.model.Book;
 
 @Service
 public class BookService {
-	
+
 	/*
-	 * test
-	 * API version /v1/
+     * Test functionality:
 	 * GET /books
 	 * GET /books?offset=10&limit=5
 	 * GET /books/{id}
@@ -32,49 +28,58 @@ public class BookService {
 	 * GET /books?sort=ascending
 	 * GET /books?sort=descending
 	 */
-	
-	@Autowired
-	ApplicationContext appContext;
-	
-	public List<Book> getAllBooks() throws JsonParseException, JsonMappingException, IOException{
-		Resource resource = appContext.getResource("classpath:data.json");
-		ObjectMapper mapper = new ObjectMapper();
-		Book[] b = mapper.readValue(resource.getFile(), Book[].class);
-		return Arrays.asList(b);
-	}
-	
-	public Optional<Book> getABook(final String id) throws JsonParseException, JsonMappingException, IOException{
-		List<Book> allBooks = getAllBooks();
-		List<Book> searchResult = allBooks.stream()
-			.filter(b -> b.getId().equalsIgnoreCase(id))
-			.collect(Collectors.toList());
-		
-		//if nothing found or more than one books found, return the empty optional
-		if(searchResult.size() != 1) {
-			return Optional.empty();
-		}
-		return Optional.of(searchResult.get(0));	
-	}
-	
-	public List<String> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
-		List<String> result = new ArrayList<>();
-		List<Book> allBooks = getAllBooks();
-		List<Book> filterBooks = allBooks.stream()
-			.filter(b -> b.getId().equals(id))
-			.collect(Collectors.toList());
-		
-		if(filterBooks.size() == 1) {
-			result = filterBooks.get(0).getAuthors();
-		}
-		
-		return result;
-	}
-	
-	public List<Book> getBooksGivenAuthorName(String authorName) throws JsonParseException, JsonMappingException, IOException{
-		List<Book> allBooks = getAllBooks();
-		List<Book> filterByAuthor = allBooks.stream()
-			.filter(b -> b.getAuthors().contains(authorName))
-			.collect(Collectors.toList());
-		return filterByAuthor;
-	}
+
+    @Autowired
+    ApplicationContext appContext;
+
+    public List<Book> getAllBooks() throws JsonParseException, JsonMappingException, IOException {
+        Resource resource = appContext.getResource("classpath:data.json");
+        ObjectMapper mapper = new ObjectMapper();
+        Book[] b = mapper.readValue(resource.getFile(), Book[].class);
+        return Arrays.asList(b);
+    }
+
+    public Optional<Book> getABook(final String id) throws JsonParseException, JsonMappingException, IOException {
+        List<Book> allBooks = getAllBooks();
+        List<Book> searchResult = allBooks.stream()
+                .filter(b -> b.getId().equalsIgnoreCase(id))
+                .collect(Collectors.toList());
+
+        //if nothing found or more than one books found, return the empty optional
+        if (searchResult.size() != 1) {
+            return Optional.empty();
+        }
+        return Optional.of(searchResult.get(0));
+    }
+
+    public List<String> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
+        List<String> result = new ArrayList<>();
+        List<Book> allBooks = getAllBooks();
+        List<Book> filterBooks = allBooks.stream()
+                .filter(b -> b.getId().equals(id))
+                .collect(Collectors.toList());
+
+        if (filterBooks.size() == 1) {
+            result = filterBooks.get(0).getAuthors();
+        }
+
+        return result;
+    }
+
+    public List<Book> getBooksGivenAuthorName(String authorName) throws JsonParseException, JsonMappingException, IOException {
+        List<Book> allBooks = getAllBooks();
+        List<Book> filterByAuthor = allBooks.stream()
+                .filter(b -> b.getAuthors().contains(authorName))
+                .collect(Collectors.toList());
+        return filterByAuthor;
+    }
+
+    public List<Book> getBooksByTitleAscending(boolean isAscending) throws IOException {
+        List<Book> allBooks = getAllBooks();
+        allBooks.sort(Comparator.comparing(b -> b.getTitle()));
+        if(!isAscending) {
+            Collections.reverse(allBooks);
+        }
+        return allBooks;
+    }
 }
