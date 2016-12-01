@@ -2,8 +2,7 @@ package com.upkar.springdemo;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
