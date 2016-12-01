@@ -4,12 +4,14 @@
 This project shows different ways to test Spring Boot Application.
 
 1. spring boot web
+
+2. spring boot test
    * json-pat
    * junit
    * mockito
    * hamcrest
 
-2. spring boot test
+2. rest-assured
    * httpclient
    * xml-path
 
