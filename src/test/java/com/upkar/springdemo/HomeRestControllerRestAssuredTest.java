@@ -26,9 +26,6 @@ public class HomeRestControllerRestAssuredTest {
     @Value("${local.server.port}")
     private int port;
 
-//	@Autowired
-//	private MockMvc mockMvc;
-
 	/*
 	 * Test functionality:
 	 * API version /v1/
@@ -46,25 +43,6 @@ public class HomeRestControllerRestAssuredTest {
 	private final String getABook = "/books/1";
 	private final String invalidUrl = "/books/hello/1";
 	private final String getAnInvaludBook = "/books/9999999999999999";
-	
-//	@Test
-//	public void getAllBooksShouldExist() throws Exception{
-//		mockMvc.perform(get(baseUrl+getAllBooksURL).accept(MediaType.APPLICATION_JSON))
-//		.andExpect(status().isOk());
-//	}
-//
-//	@Test
-//	public void getAllBooksShouldReturnListOfAllBooks() throws Exception {
-//
-//		final String expectedTitle = "The Lightning Thief";
-//
-//		mockMvc.perform(get(baseUrl + getAllBooksURL)
-//				.accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-//				.andExpect(jsonPath("$", hasSize(4)))
-//				.andExpect(jsonPath("$[0].title", is(expectedTitle)));
-//	}
 
     @Before
     public void setup() {
@@ -78,17 +56,15 @@ public class HomeRestControllerRestAssuredTest {
         final String expectedTitle = "The Lightning Thief";
 
         Response response = given().
-                            when().
-                                get(baseUrl + getAllBooksURL).
-                            then().
-                                statusCode(HttpServletResponse.SC_OK).
-                                contentType("application/json").extract().response();
+                when().
+                get(baseUrl + getAllBooksURL).
+                then().
+                statusCode(HttpServletResponse.SC_OK).
+                contentType("application/json").extract().response();
 
         String res = response.asString();
         jsonPath(res, hasSize(4));
     }
-
-
 	
 //	@Test
 //	public void getABookByIdShouldExist() throws Exception {

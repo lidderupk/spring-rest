@@ -20,7 +20,6 @@ import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
 public class HomeRestControllerRestTemplateTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeRestControllerRestTemplateTest.class);
