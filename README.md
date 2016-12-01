@@ -3,6 +3,8 @@
 ## Intro
 This project shows different ways to test Spring Boot Application.
 
+Libraries used:
+
 1. spring boot web
 
 2. spring boot test
@@ -11,7 +13,7 @@ This project shows different ways to test Spring Boot Application.
    * mockito
    * hamcrest
 
-2. rest-assured
+3. rest-assured
    * httpclient
    * xml-path
 
