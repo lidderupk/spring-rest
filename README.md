@@ -1,29 +1,22 @@
 # spring-rest
 
 ## Intro
-I created this project to show different ways to test a spring rest application.
+This project shows different ways to test Spring Boot Application.
 
 Libraries used:
-- spring boot
-- spring test
-   -
--
+1. spring boot web
+2. spring boot test
+  * json-pat
+  * junit
+  * mockito
+  * hamcrest
+3. rest-assured
+  * httpclient
+  * xml-path
 
-## General Notes:
-- Read a resource using appcontext:
-   	
-```@Autowired
-private ApplicationContext appContext;
-Resource resource = appContext.getResource("classpath:data.json");
-```
+![alt text](https://github.com/lidderupk/spring-rest/tree/dev/src/main/resources/img/rest-assured.png "Rest-Assured pom")
+![alt text](https://github.com/lidderupk/spring-rest/tree/dev/src/main/resources/img/sprint-boot-starter-test.png "Spring Test pom")
 
-- Use ObjectMapper to convert File/url into json object
-
-```
-ObjectMapper mapper = new ObjectMapper();
-Book[] b = mapper.readValue(resource.getFile(), Book[].class);
-```
-    
 ## Testing Notes
 There are multiple ways to test spring applications. See [improvements in Spring Boot 1.4](https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4).
 
@@ -117,4 +110,19 @@ public class HomeRestControllerMockMVCTest {
     		.andExpect(status().isOk());
     	}
 }
+```
+
+## Notes:
+- Read a resource using appcontext:
+
+```@Autowired
+private ApplicationContext appContext;
+Resource resource = appContext.getResource("classpath:data.json");
+```
+
+- Use ObjectMapper to convert File/url into json object
+
+```
+ObjectMapper mapper = new ObjectMapper();
+Book[] b = mapper.readValue(resource.getFile(), Book[].class);
 ```
