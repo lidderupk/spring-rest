@@ -14,7 +14,7 @@ Libraries used:
   * httpclient
   * xml-path
 
-![alt text](https://github.com/lidderupk/spring-rest/tree/dev/src/main/resources/img/rest-assured.png?raw=true "Rest-Assured pom")
+![alt text](src/main/resources/img/rest-assured.png?raw=true "Rest-Assured pom")
 ![alt text](src/main/resources/img/sprint-boot-starter-test.png?raw=true "Spring Test pom")
 
 ## Testing Notes
