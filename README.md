@@ -14,8 +14,7 @@ Libraries used:
   * httpclient
   * xml-path
 
-![alt text](src/main/resources/img/rest-assured.png?raw=true "Rest-Assured pom")
-![alt text](src/main/resources/img/sprint-boot-starter-test.png?raw=true "Spring Test pom")
+[See dependency tree.](https://github.com/lidderupk/spring-rest#dependency-tree)
 
 ## Testing Notes
 There are multiple ways to test spring applications. See [improvements in Spring Boot 1.4](https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4).
@@ -126,3 +125,7 @@ Resource resource = appContext.getResource("classpath:data.json");
 ObjectMapper mapper = new ObjectMapper();
 Book[] b = mapper.readValue(resource.getFile(), Book[].class);
 ```
+
+### Dependency tree:
+![alt text](src/main/resources/img/rest-assured.png?raw=true "Rest-Assured pom")
+![alt text](src/main/resources/img/sprint-boot-starter-test.png?raw=true "Spring Test pom")
