@@ -2,7 +2,7 @@ package com.upkar.springdemo.model;
 
 import java.util.List;
 
-public class Book {
+public class Book implements Comparable<Book>{
 	private String id;
 	private String title;
 	private String isbn;
@@ -71,4 +71,9 @@ public class Book {
 	public void setCat(List<String> cat) {
 		this.cat = cat;
 	}
+
+    @Override
+    public int compareTo(Book b) {
+        return this.title.compareTo(b.title);
+    }
 }

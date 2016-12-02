@@ -10,9 +10,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -24,13 +25,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(HomeRestController.class)
 public class HomeRestControllerMockMVCTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeRestControllerMockMVCTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeRestControllerMockMVCTest.class);
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
 	/*
-	 * Test functionality:
+     * Test functionality:
 	 * API version /v1/
 	 * GET /books
 	 * GET /books?offset=10&limit=5
@@ -40,31 +41,33 @@ public class HomeRestControllerMockMVCTest {
 	 * GET /books?sort=ascending
 	 * GET /books?sort=descending
 	 */
-	
-	private final String baseUrl = "/api";
-	private final String getAllBooksURL = "/books";
-	private final String getABook = "/books/1";
-	private final String invalidUrl = "/books/hello/1";
-	private final String getAnInvaludBook = "/books/9999999999999999";
-	
-	@Test
-	public void getAllBooksShouldExist() throws Exception{
-		mockMvc.perform(get(baseUrl+getAllBooksURL).accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk());
-	}
 
-	@Test
-	public void getAllBooksShouldReturnListOfAllBooks() throws Exception {
+    private final String baseUrl = "/api";
+    private final String getAllBooksURL = "/books";
+    private final String getABook = "/books/1";
+    private final String invalidUrl = "/books/hello/1";
+    private final String getAnInvaludBook = "/books/9999999999999999";
+    private String authorUrl = "/authors";
+    ;
 
-		final String expectedTitle = "The Lightning Thief";
+    @Test
+    public void getAllBooksShouldExist() throws Exception {
+        mockMvc.perform(get(baseUrl + getAllBooksURL).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 
-		mockMvc.perform(get(baseUrl + getAllBooksURL)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(jsonPath("$", hasSize(5)))
-				.andExpect(jsonPath("$[0].title", is(expectedTitle)));
-	}
+    @Test
+    public void getAllBooksShouldReturnListOfAllBooks() throws Exception {
+
+        final String expectedTitle = "The Lightning Thief";
+
+        mockMvc.perform(get(baseUrl + getAllBooksURL)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$[0].title", is(expectedTitle)));
+    }
 
     @Test
     public void getABookByIdShouldExist() throws Exception {
@@ -73,11 +76,11 @@ public class HomeRestControllerMockMVCTest {
                 .andExpect(status().isOk());
     }
 
-	@Test
+    @Test
     public void getABookShouldReturnBookIfExists() throws Exception {
-	    final String id = "978-0641723445";
+        final String id = "978-0641723445";
         final String expectedTitle = "The Lightning Thief";
-	    mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isNotEmpty())
@@ -86,29 +89,30 @@ public class HomeRestControllerMockMVCTest {
 
     @Test
     public void getABookShouldReturnNotFoundIfBookDoesNotExist() throws Exception {
-	    final String id = "doesnotexist";
-	    mockMvc.perform(get(baseUrl+getAllBooksURL+"/"+id).accept(MediaType.APPLICATION_JSON_UTF8))
+        final String id = "doesnotexist";
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
-	@Test
-	public void invalidUrlMustReturn404() throws Exception{
-		mockMvc.perform(get(invalidUrl).accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isNotFound());
-	}
+    @Test
+    public void invalidUrlMustReturn404() throws Exception {
+        mockMvc.perform(get(invalidUrl).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
     //Test author request - /books/{id}/{authors}
     @Test
     public void getAuthorsForBookByIdShouldExist() throws Exception {
         final String id = "978-0641723445";
-        mockMvc.perform(get(baseUrl+getAllBooksURL+"/"+id+"/authors").accept(MediaType.APPLICATION_JSON_UTF8))
+
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getAuthorsForBookByIdShouldReturn404IfBookNotFound() throws Exception {
         final String id = "doesnotexist";
-        mockMvc.perform(get(baseUrl+getAllBooksURL+"/"+id+"/authors").accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
@@ -116,7 +120,7 @@ public class HomeRestControllerMockMVCTest {
     public void getAuthorsForBookByIdShouldReturnListOfAuthors() throws Exception {
         String id = "978-0641723445";
         final String expectedAuthor = "Rick Riordan";
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + "/authors").accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isArray())
@@ -124,7 +128,7 @@ public class HomeRestControllerMockMVCTest {
 
         id = "978-1933988177";
         final List<String> expectedAuthors = Arrays.asList("Michael McCandless", "Erik Hatcher", "Otis Gospodnetic");
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + "/authors").accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isArray())
@@ -134,10 +138,51 @@ public class HomeRestControllerMockMVCTest {
 
     @Test
     public void getAuthorsForBookByIdShouldReturnEmptyArrayIfNoAuthors() throws Exception {
-	    final String id = "978-1935589679";
-	    mockMvc.perform(get(baseUrl+getAllBooksURL+"/" + id + "/authors").accept(MediaType.APPLICATION_JSON_UTF8))
+        final String id = "978-1935589679";
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    public void getBooksByTitleAscendingShouldReturnBooksAscendingByTitle() throws Exception {
+
+        String url = baseUrl + getAllBooksURL + "?sort=ascending";
+
+
+        List<String> sortedTitles = Arrays.asList("The Lightning Thief", "The Sea of Monsters"
+                , "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition", "A Guide to the Project Management Body of Knowledge");
+        Collections.sort(sortedTitles);
+
+        MvcResult mvcResult = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$[0].title", is(sortedTitles.get(0))))
+                .andReturn();
+    }
+
+    @Test
+    public void getBooksByTitleDescendingShouldReturnBooksDesendingByTitle() throws Exception {
+
+        String url = baseUrl + getAllBooksURL + "?sort=descending";
+
+
+        List<String> sortedTitles = Arrays.asList("The Lightning Thief", "The Sea of Monsters"
+                , "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition", "A Guide to the Project Management Body of Knowledge");
+        Collections.sort(sortedTitles);
+        Collections.reverse(sortedTitles);
+
+        MvcResult mvcResult = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$[0].title", is(sortedTitles.get(0))))
+                .andReturn();
+
+        logger.info("debug");
     }
 }
