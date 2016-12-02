@@ -56,7 +56,7 @@ public class HomeRestControllerRestTemplateTest {
 		Book[] books = responseEntity.getBody();
 		List<Book> booksList = Arrays.asList(books);
 		assertThat(booksList.isEmpty(), is(false));
-		assertThat(booksList.size(), is(4));
+		assertThat(booksList.size(), is(5));
 		assertThat(booksList.get(0).getTitle(), is(expectedTitle));
 	}
 }

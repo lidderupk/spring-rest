@@ -1,7 +1,11 @@
 package com.upkar.springdemo;
 
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
@@ -55,15 +60,19 @@ public class HomeRestControllerRestAssuredTest {
 
         final String expectedTitle = "The Lightning Thief";
 
-        Response response = given().
+        String body = given().
                 when().
-                get(baseUrl + getAllBooksURL).
+                    get(baseUrl + getAllBooksURL).
                 then().
-                statusCode(HttpServletResponse.SC_OK).
-                contentType("application/json").extract().response();
+                    statusCode(HttpServletResponse.SC_OK).
+                    contentType("application/json").
+                    and().
+                    body("$", hasSize(5)).
+                    and().
+                    body("title", Matchers.hasItem(expectedTitle)).
+                    extract().body().asString();
 
-        String res = response.asString();
-        jsonPath(res, hasSize(4));
+        logger.info("body: " + body);
     }
 	
 //	@Test

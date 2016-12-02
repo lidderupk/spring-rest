@@ -8,7 +8,7 @@ Libraries used:
 1. spring boot web
 
 2. spring boot test
-   * json-pat
+   * json-path
    * junit
    * mockito
    * hamcrest

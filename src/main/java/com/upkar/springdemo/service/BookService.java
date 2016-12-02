@@ -1,19 +1,18 @@
 package com.upkar.springdemo.service;
 
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.upkar.springdemo.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.upkar.springdemo.model.Book;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -52,18 +51,26 @@ public class BookService {
         return Optional.of(searchResult.get(0));
     }
 
-    public List<String> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
-        List<String> result = new ArrayList<>();
+    /***
+     * @param id
+     * @return <pre>optional empty list if book does not have any authors
+     * <pre>optional string list of authors if the book has one or more authors
+     * <pre>empty optional if the book does not exist
+     * @throws JsonParseException
+     * @throws JsonMappingException
+     * @throws IOException
+     */
+    public Optional<?> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
         List<Book> allBooks = getAllBooks();
         List<Book> filterBooks = allBooks.stream()
                 .filter(b -> b.getId().equals(id))
                 .collect(Collectors.toList());
 
         if (filterBooks.size() == 1) {
-            result = filterBooks.get(0).getAuthors();
+            return Optional.of(filterBooks.get(0).getAuthors());
+        } else {
+            return Optional.empty();
         }
-
-        return result;
     }
 
     public List<Book> getBooksGivenAuthorName(String authorName) throws JsonParseException, JsonMappingException, IOException {

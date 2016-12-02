@@ -30,7 +30,15 @@
     "id" : "978-1933988177",
     "cat" : ["book","paperback"],
     "title" : "Lucene in Action, Second Edition",
-    "authors" : ["Michael McCandless"],
+    "authors" : ["Michael McCandless", "Erik Hatcher", "Otis Gospodnetic"],
+    "genre" : "IT",
+    "isbn"	:	"7115251770"
+  },
+  {
+    "id" : "978-1935589679",
+    "cat" : ["book","paperback"],
+    "title" : "A Guide to the Project Management Body of Knowledge",
+    "authors" : [],
     "genre" : "IT",
     "isbn"	:	"7115251770"
   }

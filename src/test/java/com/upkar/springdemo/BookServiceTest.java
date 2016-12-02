@@ -49,28 +49,28 @@ public class BookServiceTest {
 	}
 
 	@Test
-	public void getAllBooksShouldReturnListOfBooks() throws JsonParseException, JsonMappingException, IOException {
+	public void getAllBooksShouldReturnListOfBooks() throws IOException {
 		List<Book> allBooks = bService.getAllBooks();
 		assertNotNull(allBooks);
 		assertThat(allBooks, instanceOf(List.class));
 	}
 	
 	@Test
-	public void getABookShouldReturnOptional() throws JsonParseException, JsonMappingException, IOException {
+	public void getABookShouldReturnOptional() throws IOException {
 		String id = "doesnotexist";
 		Optional<Book> result = bService.getABook(id);
 		assertThat(result, isA(Optional.class));
 	}
 	
 	@Test
-	public void getABookShouldReturnEmptyOptionalIfBookDoesNotExist() throws JsonParseException, JsonMappingException, IOException {
+	public void getABookShouldReturnEmptyOptionalIfBookDoesNotExist() throws IOException {
 		String id = "doesnotexist";
 		Optional<Book> aBook = bService.getABook(id);
 		assertThat(aBook.isPresent(), is(false));
 	}
 	
 	@Test
-	public void getABookShouldReturnBookOptionalIfBookExists() throws JsonParseException, JsonMappingException, IOException {
+	public void getABookShouldReturnBookOptionalIfBookExists() throws IOException {
 		String id = "978-0641723445";
 		Optional<Book> aBook = bService.getABook(id);
 		assertThat(aBook.isPresent(), is(true));
@@ -79,25 +79,30 @@ public class BookServiceTest {
 	
 	//Test author request
 	@Test
-	public void getAuthorsForBookByIdShouldReturnAList() throws JsonParseException, JsonMappingException, IOException {
+	public void getAuthorsForBookByIdShouldReturnAnOptional() throws IOException {
 		String id = "978-0641723445";
-		List<String> authors = bService.getAuthorsForBookById(id);
-		assertThat(authors, isA(List.class));
+        Optional<?> authorsOptional = bService.getAuthorsForBookById(id);
+
+        //is this a valid test? I am casting to list and testing if it is a list. Seems redundant
+        if(authorsOptional.isPresent()) {
+            assertThat((List<String>)authorsOptional.get(), isA(List.class));
+        }
 	}
 	
 	@Test
-	public void getAuthorsForBookByIdShouldReturnEmptyListForInvalidId() throws JsonParseException, JsonMappingException, IOException {
+	public void getAuthorsForBookByIdShouldReturnEmptyOptionalForInvalidId() throws IOException {
 		String id = "doesnotexist";
-		List<String> authors = bService.getAuthorsForBookById(id);
-		assertThat(authors.isEmpty(), is(true));
+        Optional<?> authorsOptional = bService.getAuthorsForBookById(id);
+        assertThat(authorsOptional.isPresent(), is(false));
 	}
 	
 	@Test
-	public void getAuthorsForBookByIdShouldReturnListOfAuthors() throws JsonParseException, JsonMappingException, IOException {
+	public void getAuthorsForBookByIdShouldReturnListOfAuthors() throws IOException {
 		String id = "978-0641723445";
-		List<String> authors = bService.getAuthorsForBookById(id);
-		List<String> expectedAuthors = Arrays.asList(("Rick Riordan"));
-		assertThat(authors, is(expectedAuthors));
+        Optional<?> authorsOptional = bService.getAuthorsForBookById(id);
+        List<String> expectedAuthors = Arrays.asList(("Rick Riordan"));
+        assertThat(authorsOptional.isPresent(), is(true));
+		assertThat(authorsOptional.get(), is(expectedAuthors));
 	}
 	
 	//GET /books?searchByAuthor=text
@@ -115,7 +120,7 @@ public class BookServiceTest {
 	public void getBooksByTitleAscendingShouldReturnBooksAscendingByTitle() throws IOException {
 		List<Book> result = bService.getBooksByTitleAscending(true);
 		List<String> sortedTitles = Arrays.asList("The Lightning Thief", "The Sea of Monsters"
-				, "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition");
+				, "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition", "A Guide to the Project Management Body of Knowledge");
 		Collections.sort(sortedTitles);
 
 		List<String> resultTitles = result.stream()
@@ -129,7 +134,7 @@ public class BookServiceTest {
 	public void getBooksByTitleDescendingShouldReturnBooksDescendingByTitle() throws IOException {
 		List<Book> result = bService.getBooksByTitleAscending(false);
 		List<String> sortedTitles = Arrays.asList("The Lightning Thief", "The Sea of Monsters"
-				, "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition");
+				, "Sophie's World : The Greek Philosophers", "Lucene in Action, Second Edition", "A Guide to the Project Management Body of Knowledge");
 		Collections.sort(sortedTitles);
 		Collections.reverse(sortedTitles);
 
