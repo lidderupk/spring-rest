@@ -1,6 +1,6 @@
 # spring-rest
 
-## Intro
+## Introduction
 This project shows different ways to test Spring Boot Application.
 
 Libraries used:
