@@ -1,8 +1,7 @@
 package com.upkar.springdemo.controller;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.upkar.springdemo.model.Book;
+import com.upkar.springdemo.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +10,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.upkar.springdemo.model.Book;
-import com.upkar.springdemo.service.BookService;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/api")
 public class HomeRestController {
 
-	private Logger logger = LoggerFactory.getLogger(HomeRestController.class);
+	private final Logger logger = LoggerFactory.getLogger(HomeRestController.class);
+	private final ApplicationContext appContext;
+	private final BookService bookService;
 
-	@Autowired
-	private ApplicationContext appContext;
-	
-	@Autowired
-	private BookService bookService;
-
+     @Autowired
+     public HomeRestController(ApplicationContext app, BookService bService){
+         this.appContext = app;
+         this.bookService = bService;
+     }
 
 	@GetMapping(
 	        value={"/books"},

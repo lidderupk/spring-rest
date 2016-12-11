@@ -1,10 +1,6 @@
 package com.upkar.springdemo;
 
-import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
