@@ -1,15 +1,7 @@
 package com.upkar.springdemo;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.upkar.springdemo.model.Book;
+import com.upkar.springdemo.service.BookService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,15 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.upkar.springdemo.model.Book;
-import com.upkar.springdemo.service.BookService;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BookService.class)
 public class BookServiceTest {
 	private static final Logger logger = LoggerFactory.getLogger(BookServiceTest.class);
+	private final String doesnotexist = "doesnotexist";
 
 	/*
 	 * test
@@ -57,15 +56,13 @@ public class BookServiceTest {
 	
 	@Test
 	public void getABookShouldReturnOptional() throws IOException {
-		String id = "doesnotexist";
-		Optional<Book> result = bService.getABook(id);
+		Optional<Book> result = bService.getABook(doesnotexist);
 		assertThat(result, isA(Optional.class));
 	}
 	
 	@Test
 	public void getABookShouldReturnEmptyOptionalIfBookDoesNotExist() throws IOException {
-		String id = "doesnotexist";
-		Optional<Book> aBook = bService.getABook(id);
+		Optional<Book> aBook = bService.getABook(doesnotexist);
 		assertThat(aBook.isPresent(), is(false));
 	}
 	
@@ -91,8 +88,7 @@ public class BookServiceTest {
 	
 	@Test
 	public void getAuthorsForBookByIdShouldReturnEmptyOptionalForInvalidId() throws IOException {
-		String id = "doesnotexist";
-        Optional<?> authorsOptional = bService.getAuthorsForBookById(id);
+        Optional<?> authorsOptional = bService.getAuthorsForBookById(doesnotexist);
         assertThat(authorsOptional.isPresent(), is(false));
 	}
 	
@@ -107,7 +103,7 @@ public class BookServiceTest {
 	
 	//GET /books?searchByAuthor=text
 	@Test
-	public void getBooksGivenAuthorNameShouldReturnAllBooksByAuthor() throws JsonParseException, JsonMappingException, IOException{
+	public void getBooksGivenAuthorNameShouldReturnAllBooksByAuthor() throws IOException{
 		String author = "Rick Riordan";
 		List<Book> books = bService.getBooksGivenAuthorName(author);
 		assertThat(books.isEmpty(), is(false));

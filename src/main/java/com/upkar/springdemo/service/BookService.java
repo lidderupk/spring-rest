@@ -1,15 +1,13 @@
 package com.upkar.springdemo.service;
 
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upkar.springdemo.model.Book;
+import com.upkar.springdemo.utils.ResourceInjection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,17 +26,22 @@ public class BookService {
 	 * GET /books?sort=descending
 	 */
 
-    @Autowired
-    ApplicationContext appContext;
+    private final File jsonFile;
+    private final ObjectMapper mapper;
 
-    public List<Book> getAllBooks() throws JsonParseException, JsonMappingException, IOException {
-        Resource resource = appContext.getResource("classpath:data.json");
-        ObjectMapper mapper = new ObjectMapper();
-        Book[] b = mapper.readValue(resource.getFile(), Book[].class);
+    @Autowired
+    public BookService(ResourceInjection resource,
+                       ObjectMapper objectMapper) throws IOException {
+        this.mapper = objectMapper;
+        this.jsonFile = resource.getResource().getFile();
+    }
+
+    public List<Book> getAllBooks() throws IOException {
+        Book[] b = mapper.readValue(jsonFile, Book[].class);
         return Arrays.asList(b);
     }
 
-    public Optional<Book> getABook(final String id) throws JsonParseException, JsonMappingException, IOException {
+    public Optional<Book> getABook(final String id) throws IOException {
         List<Book> allBooks = getAllBooks();
         List<Book> searchResult = allBooks.stream()
                 .filter(b -> b.getId().equalsIgnoreCase(id))
@@ -56,11 +59,9 @@ public class BookService {
      * @return <pre>optional empty list if book does not have any authors
      * <pre>optional string list of authors if the book has one or more authors
      * <pre>empty optional if the book does not exist
-     * @throws JsonParseException
-     * @throws JsonMappingException
      * @throws IOException
      */
-    public Optional<?> getAuthorsForBookById(String id) throws JsonParseException, JsonMappingException, IOException {
+    public Optional<?> getAuthorsForBookById(String id) throws IOException {
         List<Book> allBooks = getAllBooks();
         List<Book> filterBooks = allBooks.stream()
                 .filter(b -> b.getId().equals(id))
@@ -73,7 +74,7 @@ public class BookService {
         }
     }
 
-    public List<Book> getBooksGivenAuthorName(String authorName) throws JsonParseException, JsonMappingException, IOException {
+    public List<Book> getBooksGivenAuthorName(String authorName) throws IOException {
         List<Book> allBooks = getAllBooks();
         List<Book> filterByAuthor = allBooks.stream()
                 .filter(b -> b.getAuthors().contains(authorName))
