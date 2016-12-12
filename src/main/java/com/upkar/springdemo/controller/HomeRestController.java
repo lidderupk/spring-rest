@@ -2,6 +2,7 @@ package com.upkar.springdemo.controller;
 
 import com.upkar.springdemo.model.Book;
 import com.upkar.springdemo.service.BookService;
+import com.upkar.springdemo.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(Constants.apiBaseURL)
 public class HomeRestController {
 
 	private final Logger logger = LoggerFactory.getLogger(HomeRestController.class);
@@ -31,8 +32,8 @@ public class HomeRestController {
      }
 
 	@GetMapping(
-	        value={"/books"},
-            params = "sort"
+	        value={Constants.apiAllBooksURL},
+            params = Constants.apiAllBooksURLParamSort
     )
 	public ResponseEntity<List<Book>> getBooksSort(@RequestParam("sort") String sort) throws IOException {
         logger.info("getABook called with sort: " + sort);
