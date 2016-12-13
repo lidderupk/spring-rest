@@ -82,34 +82,4 @@ public class HomeRestController {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @GetMapping(path = "/hello-map")
-    public Map<String, Boolean> getHello(HttpServletResponse resp){
-        Map<String, Boolean> map = new HashMap<String, Boolean>(1){{put("result", Boolean.TRUE);}};
-        return map;
-    }
-
-    @GetMapping(path = "/hello-array")
-    public List<String> getHelloArray(HttpServletResponse resp){
-        List result = Arrays.asList("first", "second", "third", "fourth");
-        return result;
-
-    }
-
-    @GetMapping(path = "/hello-string")
-    public ResponseEntity<String> getHelloString(HttpServletResponse resp){
-        return new ResponseEntity<String>("hello-string", HttpStatus.OK);
-
-    }
-
-    @GetMapping(path = "/hello-new")
-    public Map<String, String> getHelloStringNew(HttpServletResponse resp){
-        return Collections.singletonMap("message", "Unauthorized");
-
-    }
-
-    @GetMapping("/empty")
-    public ResponseEntity something() {
-        return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
-    }
 }
