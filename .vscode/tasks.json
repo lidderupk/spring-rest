@@ -1,0 +1,51 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "mvn",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "tasks": [
+        {
+            "taskName": "validate",
+            "args": ["validate"]
+        },
+         {
+            "taskName": "clean",
+            "args": ["clean"]
+        },
+        {
+            "taskName": "compile",
+            "args": ["compile"]
+        },
+        {
+            "taskName": "test",
+            "args": ["test"]
+        },
+        {
+            "taskName": "package",
+            "args": ["package"]
+        },
+        {
+            "taskName": "verify",
+            "args": ["verify"]
+        },
+        {
+            "taskName": "install",
+            "args": ["install"]
+        },
+        {
+            "taskName": "spring-boot-run",
+            "args": ["spring-boot:run"]
+        },
+        {
+            "taskName": "spring-boot-stop",
+    "args": ["spring-boot:stop"]
+        },
+        {
+            "taskName": "spring-boot-start",
+            "args": ["spring-boot:start"]
+        }
+    ]
+}

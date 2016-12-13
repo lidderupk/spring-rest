@@ -3,16 +3,22 @@ package com.upkar.springdemo.controller;
 import java.io.IOException;
 import java.util.*;
 
+import com.upkar.springdemo.model.EmptyJsonResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.upkar.springdemo.model.Book;
 import com.upkar.springdemo.service.BookService;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -75,5 +81,35 @@ public class HomeRestController {
         else {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(path = "/hello-map")
+    public Map<String, Boolean> getHello(HttpServletResponse resp){
+        Map<String, Boolean> map = new HashMap<String, Boolean>(1){{put("result", Boolean.TRUE);}};
+        return map;
+    }
+
+    @GetMapping(path = "/hello-array")
+    public List<String> getHelloArray(HttpServletResponse resp){
+        List result = Arrays.asList("first", "second", "third", "fourth");
+        return result;
+
+    }
+
+    @GetMapping(path = "/hello-string")
+    public ResponseEntity<String> getHelloString(HttpServletResponse resp){
+        return new ResponseEntity<String>("hello-string", HttpStatus.OK);
+
+    }
+
+    @GetMapping(path = "/hello-new")
+    public Map<String, String> getHelloStringNew(HttpServletResponse resp){
+        return Collections.singletonMap("message", "Unauthorized");
+
+    }
+
+    @GetMapping("/empty")
+    public ResponseEntity something() {
+        return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.OK);
     }
 }
