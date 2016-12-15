@@ -1,6 +1,6 @@
 # spring-rest
 
-## Intro
+## Introduction
 This project shows different ways to test Spring Boot Application.
 
 Libraries used:
@@ -8,13 +8,13 @@ Libraries used:
 1. spring boot web
 
 2. spring boot test
-   * json-path
-   * junit
-   * mockito
-   * hamcrest
+   * [json-path](https://github.com/jayway/JsonPath)
+   * [junit](http://junit.org/junit4/)
+   * [mockito](http://site.mockito.org/)
+   * [hamcrest](https://github.com/hamcrest/JavaHamcrest)
 
-3. rest-assured
-   * httpclient
+3. [rest-assured](http://rest-assured.io/)
+   * [httpclient](https://hc.apache.org/httpclient-3.x/)
    * xml-path
 
 [See dependency tree.](https://github.com/lidderupk/spring-rest#dependency-tree)
