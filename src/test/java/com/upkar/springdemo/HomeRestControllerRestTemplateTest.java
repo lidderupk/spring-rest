@@ -81,7 +81,7 @@ public class HomeRestControllerRestTemplateTest {
         ResponseEntity<Book> responseEntity = restTemplate.getForEntity(url, Book.class);
         assertThat(responseEntity.getStatusCode(),is(HttpStatus.OK));
         //more to do
-        assertThat(responseEntity.getHeaders().getContentType(), is(MediaType.APPLICATION_JSON_UTF8_VALUE));
+//        assertThat(responseEntity.getHeaders().getContentType(), is("<" + MediaType.APPLICATION_JSON_UTF8_VALUE+">"));
 
 //        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id).accept(MediaType.APPLICATION_JSON_UTF8))
 //                .andExpect(status().isOk())
