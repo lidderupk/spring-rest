@@ -1,4 +1,4 @@
-# spring-rest
+# spring-rest [![Build Status](https://travis-ci.org/lidderupk/spring-rest.svg?branch=master)](https://travis-ci.org/lidderupk/spring-rest)
 
 ## Introduction
 This project shows different ways to test Spring Boot Application.
