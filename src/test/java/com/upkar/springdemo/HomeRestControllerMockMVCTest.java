@@ -1,6 +1,7 @@
 package com.upkar.springdemo;
 
 import com.upkar.springdemo.controller.HomeRestController;
+import com.upkar.springdemo.utils.Constants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -47,7 +48,6 @@ public class HomeRestControllerMockMVCTest {
     private final String getABook = "/books/1";
     private final String invalidUrl = "/books/hello/1";
     private final String getAnInvaludBook = "/books/9999999999999999";
-    private String authorUrl = "/authors";
     ;
 
     @Test
@@ -105,14 +105,13 @@ public class HomeRestControllerMockMVCTest {
     public void getAuthorsForBookByIdShouldExist() throws Exception {
         final String id = "978-0641723445";
 
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + Constants.authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getAuthorsForBookByIdShouldReturn404IfBookNotFound() throws Exception {
-        final String id = "doesnotexist";
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + Constants.doesNotExist + Constants.authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
@@ -120,7 +119,7 @@ public class HomeRestControllerMockMVCTest {
     public void getAuthorsForBookByIdShouldReturnListOfAuthors() throws Exception {
         String id = "978-0641723445";
         final String expectedAuthor = "Rick Riordan";
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + Constants.authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isArray())
@@ -128,7 +127,7 @@ public class HomeRestControllerMockMVCTest {
 
         id = "978-1933988177";
         final List<String> expectedAuthors = Arrays.asList("Michael McCandless", "Erik Hatcher", "Otis Gospodnetic");
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + Constants.authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isArray())
@@ -139,7 +138,7 @@ public class HomeRestControllerMockMVCTest {
     @Test
     public void getAuthorsForBookByIdShouldReturnEmptyArrayIfNoAuthors() throws Exception {
         final String id = "978-1935589679";
-        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(get(baseUrl + getAllBooksURL + "/" + id + Constants.authorUrl).accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$").isEmpty());
