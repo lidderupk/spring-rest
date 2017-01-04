@@ -1,13 +1,20 @@
 package com.upkar.springdemo.model;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.List;
 
+@Entity
 public class Book implements Comparable<Book>{
+    @Id
 	private String id;
 	private String title;
 	private String isbn;
 	private String genre;
+	@ElementCollection
 	private List<String> authors;
+    @ElementCollection
 	private List<String> cat;
 
 	public Book() {

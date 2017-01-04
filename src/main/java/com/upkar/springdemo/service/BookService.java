@@ -3,6 +3,7 @@ package com.upkar.springdemo.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upkar.springdemo.model.Book;
+import com.upkar.springdemo.repository.BookRepository;
 import com.upkar.springdemo.utils.ResourceInjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,19 +27,20 @@ public class BookService {
 	 * GET /books?sort=descending
 	 */
 
-    private final File jsonFile;
-    private final ObjectMapper mapper;
+    private final BookRepository bRepo;
 
     @Autowired
-    public BookService(ResourceInjection resource,
-                       ObjectMapper objectMapper) throws IOException {
-        this.mapper = objectMapper;
-        this.jsonFile = resource.getResource().getFile();
+    public BookService(BookRepository bRepo) throws IOException {
+        this.bRepo = bRepo;
     }
 
     public List<Book> getAllBooks() throws IOException {
-        Book[] b = mapper.readValue(jsonFile, Book[].class);
-        return Arrays.asList(b);
+//        Book[] b = mapper.readValue(jsonFile, Book[].class);
+        List<Book> list = new ArrayList<>();
+        Iterable<Book> books = bRepo.findAll();
+        Iterator<Book> iterator = books.iterator();
+        iterator.forEachRemaining(list::add);
+        return list;
     }
 
     public Optional<Book> getABook(final String id) throws IOException {

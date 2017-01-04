@@ -9,8 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class SpringDemoApplication {
 
 	public static void main(String[] args) {
-		System.out.println("upkar: starting");
 		SpringApplication.run(SpringDemoApplication.class, args);
-		System.out.println("upkar: done");
 	}
 }
