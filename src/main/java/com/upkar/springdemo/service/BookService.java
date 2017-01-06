@@ -1,14 +1,11 @@
 package com.upkar.springdemo.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upkar.springdemo.model.Book;
 import com.upkar.springdemo.repository.BookRepository;
-import com.upkar.springdemo.utils.ResourceInjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
